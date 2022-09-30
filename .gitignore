@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# uploaded files
+uploads/
+
+# assets
+assets/
