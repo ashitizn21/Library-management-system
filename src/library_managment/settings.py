@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1uk7mca17p@vj4c*qkj-ni8bclyy81$ze%^jejwg$4bhn+*-^='
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=True)
 
 ALLOWED_HOSTS = []
 
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # local apps
+    'catalog',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +59,7 @@ ROOT_URLCONF = 'library_managment.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,15 +74,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'library_managment.wsgi.application'
 
+# Create your views here.
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=config("DATABASE_URL", default="sqlite:///db.sqlite3"),
+    )
 }
 
 
@@ -105,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Addis_Ababa'
 
 USE_I18N = True
 
@@ -113,11 +118,23 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+#=====================================#
+#       STATIC FILES SETTINGS         #
+#=====================================#
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "assets"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+)
+
+#=====================================#
+#       MEDIA FILES SETTINGS          #
+#=====================================#
+MEDIA_URL = "/uploads/"
+MEDIA_ROOT = BASE_DIR.parent / "uploads"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
