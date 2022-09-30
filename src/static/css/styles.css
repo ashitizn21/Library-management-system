@@ -1,0 +1,118 @@
+:root {
+    --main-color: rgb(211, 211, 211);
+    --main-color-dark: #fafafa;
+    --main-grey: #212529;
+    --bs-table-bg: red;
+    --body-dark: #bebbbb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /*background-color: rgba(120, 120, 120, 0) !important;*/
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    background-color: var(--main-color-dark);
+    overflow-x: hidden;
+}
+.header {
+    height: 4rem;
+}
+.logo-img {
+    width: 90px;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    background-color: #fff;
+}
+
+#sidebar .nav-item {
+    color: #222 !important;
+}
+
+#sidebar .nav-link:hover {
+    background-color: var(--bs-gray-300);
+}
+
+#sidebar {
+    position: sticky;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #dcdcdc;
+}
+#sidebar li .submenu{
+    list-style: none;
+    font-size: 15px;
+}
+.sidebar-nav {
+    width: 260px;
+}
+
+.collapsing.collapse-horizontal {
+    overflow: hidden;
+    transition: 0.75s ease-in-out;
+}
+
+td.details-control {
+    background: url('../img/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('../img/details_close.png') no-repeat center center;
+    cursor: pointer;
+}
+
+a,
+a:active,
+a:focus {
+    color: #616161;
+    text-decoration: none;
+    transition-timing-function: ease-in-out;
+    -ms-transition-timing-function: ease-in-out;
+    -moz-transition-timing-function: ease-in-out;
+    -webkit-transition-timing-function: ease-in-out;
+    -o-transition-timing-function: ease-in-out;
+    transition-duration: .2s;
+    -ms-transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    -webkit-transition-duration: .2s;
+    -o-transition-duration: .2s;
+}
+
+.manageMenu {
+    min-width: 12rem;
+}
+
+.error-img {
+    width: 100vw;
+    height: 100vh;
+    background-size: auto 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding-bottom: 7%;
+    padding-left: 15%;
+
+}
+.error-400 {
+    background-image: url("../img/errors/400.svg");
+}
+.error-403 {
+    background-image: url("../img/errors/403.svg");
+}
+.error-404 {
+    background-image: url("../img/errors/404.svg");
+}
+.error-500 {
+    background-image: url("../img/errors/500.svg");
+}
