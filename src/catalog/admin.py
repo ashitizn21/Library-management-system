@@ -1,3 +1,42 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Author, Genre, Book, BookInstance
+
+
+class AuthorBookInline(admin.TabularInline):
+    '''  '''
+    model = Book
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ["first_name", "last_name", "date_of_birth", "date_of_death"]
+    fields = ['first_name', "last_name", ("date_of_birth", ("date_of_death"))]
+
+    inlines = [AuthorBookInline]
+class BookInstanceInline(admin.TabularInline):
+    ''' to see instance of book in detail of book '''
+    model = BookInstance
+
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'display_genre')
+    
+    inlines = [BookInstanceInline]
+
+class BookInstanceAdmin(admin.ModelAdmin):
+    list_filter = ('status', 'due_back')
+    list_display = ('book', 'status', 'due_back')
+
+    fieldsets = (
+        (None, {
+            "fields": ("id", "book", "imprint")
+        }),
+        ('Availability', {
+            "fields": ("status", "due_back")
+        }),
+    )
+admin.site.register(BookInstance, BookInstanceAdmin)
+
+class GenreAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Genre, GenreAdmin)
