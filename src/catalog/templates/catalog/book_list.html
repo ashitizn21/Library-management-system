@@ -1,0 +1,23 @@
+{% extends 'layouts/main.html'%} {% load static %}
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>  
+    </ol>
+</nav>
+{% endblock %}
+{% block content %} 
+<h1>Book lists</h1> 
+{% if books %} 
+<div>
+    <ul class="list-unstyled">        
+        {% for book in books %}
+    <li><a href="{{ book.get_absolute_url }}" class="m-2">{{ book.title }}</a> - {{ book.author }}</li>    
+        {% endfor %}
+    </ul>
+</div>
+{% else %} 
+
+{% endif %}
+{% endblock content %}
