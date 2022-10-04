@@ -1,1 +1,15 @@
-{% extends 'layouts/main.html' %} asfnsdkg
+{% extends 'layouts/main.html' %} {% load static %}
+{% block title %}Home page{% endblock title %}
+{% block content %}
+<h1>Library managment Home</h1>
+<p>Wellcome to library managment, a website developed by <em>Ashiti</em>!</p>
+<h3>Dynamic content</h3>
+<u class="text-decoration-none list-unstyled">
+    <li><strong>Number of copies of book : </strong>{{ num_bookIstance }}</li>
+    <li><strong>Number of books : </strong> {{ num_books }}</li>
+    <li><strong>Available books : </strong>{{ available_book }}</li>
+    <li><strong>Num of genre : </strong>{{ num_genre }}</li>
+
+</u>
+{{ new_data }}
+{% endblock content %}
