@@ -10,12 +10,13 @@
 
 {% block main %} 
 <div class="container-fluid px-0">
-    <div class="row flex-nowrap">
+    <div class="row ">
         {% include 'layouts/components/sidebar.html' %}
         <main class="col px-0">
             {% include 'layouts/components/header.html' %}
             <div class="ps-md-2">
-                {% block breadcrumbs %} {% endblock breadcrumbs %}{% if not title_only %}
+                {% block breadcrumbs %} {% endblock breadcrumbs %}
+                {% if not title_only %}
                 <div class="pt-3">
                   <h1 class="fw-light fs-3">{{ title }}</h1>
                 </div>{% endif %}
