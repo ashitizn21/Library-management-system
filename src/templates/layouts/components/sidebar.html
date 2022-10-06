@@ -8,7 +8,7 @@
         </div>
     </div>    
     <ul class="sidebar-nav p-5 list-unstyled">
-        <li><a href="#">All Books</a></li>
-        <li><a href="#">All Authors</a></li>
+        <li><a href="{% url 'catalog:list_book' %}">All Books</a></li>
+        <li><a href="{% url 'catalog:authors_list' %}">All Authors</a></li>
     </ul>
 </nav>

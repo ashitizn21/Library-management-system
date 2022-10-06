@@ -32,7 +32,7 @@ class BookListView(ListView):
     templates_name = "catalog/book_list.html"
     context_object_name = "books"
     extra_context = {"title": "List of books"}
-
+    paginate_by = 3
     def get_context_data(self, **kwargs):
         context = super(BookListView, self).get_context_data(**kwargs)
         context['new_data'] = "this a sample of data"
