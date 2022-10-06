@@ -7,3 +7,15 @@
     </ol>
 </nav>
 {% endblock %}
+{% block content %}
+<h1>Authors list</h1>
+{% if authors %} 
+<div>
+  <ul class="list-unstyled">
+    {% for author in authors %}
+    <li><a href="{{ author.get_absolute_url }}">{{ author.first_name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endblock %}
