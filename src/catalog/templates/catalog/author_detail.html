@@ -18,7 +18,7 @@
         <h4>Books he wrote</h4>
         <ul>
             {% for book in author.books.all %}
-            <li><strong>Book title : </strong><a href="{}"> {{ book.title }} </a>--- <em>book genre is </em>  {{ book.genre }}</li>
+            <li><strong>Book title : </strong><a href="{{ book.get_absolute_url }}"> {{ book.title }} </a>--- <em>book genre is </em>  {{ book.genre }}</li>
             {% endfor %}
         </ul>
     </div>
