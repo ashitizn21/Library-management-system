@@ -1,0 +1,17 @@
+{% extends 'layouts/base.html' %} {% load static %}
+{% block main %} 
+<div class="container-fluid d-flex justify-content-center align-items-center flex-column" style="background-color: #e2e2e2; height: 100vh;">
+    <div class="py-4 px-5 bg-light rounded-3 shadow">
+        <div class="text-center mb-3">
+            <img src="{% static 'img/logo.svg' %}" class="img-fluid" height="75" width="75" alt="">
+
+            <h3 class="fw-bolder mt-3">SINPER
+                <span class="fw-light"> Authentication</span>
+            </h3>
+                {% if form.non_field_errors %}{% include 'layouts/error.html' with error=form.non_field_errors|first %}{% endif %}
+        </div>
+        {% block content %} {% endblock content %}
+    </div>
+</div>
+
+{% endblock main %}
