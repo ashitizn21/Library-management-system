@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from django.urls import reverse_lazy
 from pathlib import Path
 from decouple import config
 import dj_database_url
@@ -40,8 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third party
+    'widget_tweaks',
     # local apps
     'catalog',
+    'auser',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +122,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+#===================================#
+# LOGIN URL SETTING                 #
+#===================================#
+LOGIN_URL = reverse_lazy("auser:login")
+LOGIN_REDIRECT = reverse_lazy("catalog:index")
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
 #=====================================#
 #       STATIC FILES SETTINGS         #
 #=====================================#
@@ -135,6 +146,15 @@ STATICFILES_FINDERS = (
 #=====================================#
 MEDIA_URL = "/uploads/"
 MEDIA_ROOT = BASE_DIR.parent / "uploads"
+
+# ==============================================================================
+# EMAIL SETTINGS
+# ==============================================================================
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = BASE_DIR / "emails"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

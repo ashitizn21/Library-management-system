@@ -19,4 +19,6 @@ from django.urls import path, include, re_path
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^catalog/', include('catalog.urls') ),
+    re_path(r'', include('django.contrib.auth.urls')),
+    re_path(r'', include("auser.urls")),
 ]
