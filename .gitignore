@@ -139,3 +139,6 @@ assets/
 **/migrations/**
 # !**/migrations
 # !**/migrations/__init__.py
+
+# emails folder for local serve
+emails/
