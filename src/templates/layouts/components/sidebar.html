@@ -9,6 +9,9 @@
     </div>    
     <ul class="sidebar-nav p-5 list-unstyled">
         <li><a href="{% url 'catalog:list_book' %}">All Books</a></li>
-        <li><a href="{% url 'catalog:authors_list' %}">All Authors</a></li>
+        <li><a href="{% url 'auser:authors_list' %}">All Authors</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'catalog:loaned_book' %}">My Borrowed</a></li>
+        {% endif %}
     </ul>
 </nav>
