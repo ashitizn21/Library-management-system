@@ -1,1 +1,40 @@
-am from header
+{% load static %}
+
+<header class="header d-flex flex-row justify-content-between align-items-center p-4 mb-3 bg-light align-items-center p-4 mb-3 bg-light" >
+
+  <div class="d-none d-md-block"></div>
+  <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="d-md-none"><i class="fas fa-bars"></i></a>
+  <h4 class="fw-bolder mt-3 fs-2">DJANGO <span class="fw-light">MDN project</span></h4>
+  <div class="dropdown mx-5">
+    <button class="btn dropdown-toggle rounded-pill shadow-none" type="button" id="ProfileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src="{{ user.profile_picture.url }}" alt="profile-picture" class="img-fluid rounded-circle profile-img" wid />
+    </button>
+
+  <ul class="dropdown-menu rounded-3 p-0  shadow" aria-labelledby="ProfileMenu" style="min-width: 10rem">
+    {% if user.is_authenticated %}
+    <div class="card">
+      <div class="card-header">
+        <div class="fw-bolder">{{ request.user.first_name }}&nbsp;{{ request.user.last_name }}</div>
+        <div class="text-success text-center">{{ request.user.get_username }}</div>
+      </div>
+      <div class="card-body p-0">
+        <li>
+          <a class="dropdown-item p-2 px-3" href=""><i class="fa-solid fa-user me-2"></i>Profile</a>
+        </li>
+        <li>
+          <a class="dropdown-item p-2 px-3" href=""><i class="fa-solid fa-key me-2"></i>Change
+        password</a>
+        </li>
+        <li>
+          <a href="{% url 'auser:logout' %}" class="dropdown-item p-2 px-3"><i class="fa fa-sign-out" aria-hidden="true"></i>
+          Logout</a>
+        </li>
+        {% else %}
+        <li>
+          <a class="dropdown-item p-2 px-3 border-top border-danger border-1 fw-bold" href="{% url 'auser:login' %}"><i class="fas fa-sign-out-alt me-2"></i>Login</a>
+        </li>
+        {% endif %}
+      </div>
+    </div>
+  </ul>
+</header>
