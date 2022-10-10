@@ -122,11 +122,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = "auser.User"
+
 #===================================#
 # LOGIN URL SETTING                 #
 #===================================#
 LOGIN_URL = reverse_lazy("auser:login")
-LOGIN_REDIRECT = reverse_lazy("catalog:index")
+LOGIN_REDIRECT_URL = reverse_lazy("catalog:index")
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
 #=====================================#
