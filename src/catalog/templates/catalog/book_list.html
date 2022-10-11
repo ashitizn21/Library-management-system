@@ -8,7 +8,7 @@
 </nav>
 {% endblock %}
 {% block content %} 
-<h1>Book lists</h1> 
+<h1>Book lists</h1> {% if request.user.is_staff %} <h2>GOOD</h2> {% else %} <h2>BAD</h2>{% endif %}
 {% if books %} 
 <div>
     <ul class="list-unstyled">        
