@@ -1,10 +1,12 @@
 
-from secrets import choice
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 import uuid 
-from auser.models import Author
+
+from datetime import date
+from auser.models import Author, User
 
 
 class Genre(models.Model):
@@ -56,6 +58,8 @@ class BookInstance(models.Model):
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
 
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
     LOAN_STATUS = (
         ('M', "Maintenance"),
         ('O', "On loan"),
@@ -70,6 +74,11 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = [("can_mark_returns", "Set book as returnes"),]
 
     def __str__(self):
         return f'{self.id} ({self.book.title})'
+
+    @property
+    def is_overdate(self):
+        return bool(self.due_back and date.today() > self.due_back )
