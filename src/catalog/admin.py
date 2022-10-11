@@ -9,7 +9,7 @@ class AuthorBookInline(admin.TabularInline):
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ["first_name", "last_name", "date_of_birth", "date_of_death"]
-    fields = ['first_name', "last_name", ("date_of_birth", ("date_of_death"))]
+    fields = ['first_name', "last_name", "username", "email", "phone_number", ("date_of_birth", "date_of_death")]
 
     inlines = [AuthorBookInline]
 class BookInstanceInline(admin.TabularInline):
@@ -28,7 +28,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            "fields": ("id", "book", "imprint")
+            "fields": ("id", "book", "imprint", "borrower")
         }),
         ('Availability', {
             "fields": ("status", "due_back")
