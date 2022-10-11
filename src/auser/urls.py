@@ -5,6 +5,8 @@ from django.contrib.auth.views import ( LoginView, LogoutView,
                                         PasswordChangeView, PasswordResetCompleteView,
                                         PasswordResetConfirmView, PasswordResetDoneView
                                         )
+from auser import views
+
 app_name = "auser"
 
 urlpatterns = [
@@ -15,7 +17,7 @@ urlpatterns = [
                 re_path(
                     r"^login/$",
                     LoginView.as_view(
-                        redirect_authenticated_user=True,
+                        redirect_authenticated_user=False,
                         extra_context = {"title": "Login"}
                     ),
                     name="login"
@@ -55,4 +57,7 @@ urlpatterns = [
             ],
         )
     ),
+
+    re_path(r'^authors/$', views.AuthorListView.as_view(), name='authors_list'),
+    re_path(r'^author/(?P<pk>\d+)/$', views.AuthorDetailView.as_view(), name='author_detail'),
 ]
