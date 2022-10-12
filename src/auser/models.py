@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from auser.validators import PhoneNumberValidator
 
@@ -55,6 +55,18 @@ class User(AbstractUser, Address):
         ff = f"{self.username} {('--'+self.get_full_name()) if self.get_full_name() else ' '}"
         return ff
 
+    def get_absloute_url(self):
+        return reverse_lazy("auser:user_detail", args=[str(self.id)])
+
+
+    @property
+    def is_staff_user(self):
+        '''  '''
+        return self.groups.filter(name="staff_user").exists()
+
+    @property
+    def is_user(self):
+        return self.groups.filter(name="user").exists()
 
 class Author(User):
     ''' Author model of books '''
@@ -69,7 +81,7 @@ class Author(User):
         verbose_name_plural = _("authors")
 
     def get_absolute_url(self):
-        return reverse('catalog:author_detail', args=[str(self.id)])
+        return reverse('auser:author_detail', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.last_name}, {self.first_name}'
