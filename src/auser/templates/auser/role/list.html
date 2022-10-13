@@ -1,0 +1,39 @@
+{% extends 'layouts/main.html' %} {% load static %} 
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+</nav>
+{% endblock %} {% block content %} 
+<div class="container-fluid p-1 p-sm-3">
+    <table id="roles_table" class="table rounded">
+        <thead>
+            <tr>
+                <th class="border-bottom border-0" style="max-width: 25px;">No</th>
+                <th class="border-bottom border-0">Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody> {% if roles %} {% for role in roles %} {% with role=role %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td>{{ role.name }}</td>
+                <td>{% if perms.auth.change_group %}
+                    <div class="markdown">
+                        <button class="btn shadow-none" type="button" id="manageMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-gears fs-4"></i>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-dark manageMenu" aria-labelledby="manageMenu">
+                            <li><a class="dropdown-item py-2" href=""><i class="fa-solid fa-list me-2"></i>Update</a></li>
+                          </ul>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endwith %} {% endfor %} {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
