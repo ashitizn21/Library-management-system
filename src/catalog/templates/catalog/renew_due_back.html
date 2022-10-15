@@ -1,0 +1,37 @@
+{% extends 'layouts/main.html' %} {% load static widget_tweaks %} 
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb ">
+        <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog:list_book' %}">books</a></li>
+        <li class="breadcrumb-item"><a href="{{ book.get_absolute_url }}">{{ book_instance.book }} - detail</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Renew due back - {{ book_instance.book  }}</li>
+    </ol>
+</nav>
+{% endblock %} 
+{% block page_title %} Renew due back - {{ book_instance.book }} {% endblock %}
+{% block content %}{% with WIDGET_ERROR_CLASS="is-invalid" %}
+<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% if form.non_field_error %} {% include 'layouts/error.html' with error=form.non_field_errors|first %}{% endif %}
+    {% for field in form.hidden_fields %}{{ field }}{% endfor %} 
+    <div class="row">
+        {% for field in form.visible_fields %} 
+        <div class="col-sm-3 col-12 fw-light my-1 my-md-0">
+            <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.field.required %} {% endif %}</label>
+        </div>
+        <div class="col-4">
+            {% render_field field class+="form-control shadow-none" %}
+
+            <span class="small text-muted">{{ field.help_text }}</span>
+            {% if field.errors %}
+            <div class="invalid-feedback"><i class="bx bx-radio-circle"></i>{{ field.errors| first }}</div> 
+            {% endif %}
+        </div>
+    </div>{% endfor %}
+    <div class="row">
+        <div class="col-md-10 col-lg-8">
+            <button class="btn btn-primary shadow-none float-end px-3 mx-2"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+        </div>
+    </div>
+</form>{% endwith %}
+{% endblock %}
