@@ -19,7 +19,14 @@
                 {% if not title_only %}
                 <div class="pt-3">
                   <h1 class="fw-light fs-3">{{ title }}</h1>
-                </div>{% endif %}
+                </div>
+                {% else %} 
+                <div class="pt-3">
+                    <h1 class="fw-light fs-3">
+                        {% block page_title %} {% endblock page_title %}
+                    </h1>
+                </div>
+                {% endif %}
                 <div class="main-content container-fluid">
                     {% block content %} {% endblock content %}
                     {% block pagination %} {% endblock pagination %}
