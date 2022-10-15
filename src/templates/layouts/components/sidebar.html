@@ -1,17 +1,20 @@
 {% load static %}
-<nav class="col-auto" id="sidebar">
-    <div class="sidebar-nav">
+<nav class="col-auto collapse d-md-block collapse-horizontal pt-1 px-0 mx-0 sticky-md-top shadow-md" id="sidebar">
+    <div class="row sidebar-nav">
         <div class="d-flex justify-content-center">
             <a class="mx-auto mt-4 mb-5" href="{% url 'catalog:index' %}">
                 <img src="{% static 'img/logo.svg' %}" class="rounded-circle img-fluid logo-img" alt="Home">
             </a>
         </div>
     </div>    
-    <ul class="sidebar-nav p-5 list-unstyled">
-        <li><a href="{% url 'catalog:list_book' %}">All Books</a></li>
-        <li><a href="{% url 'auser:authors_list' %}">All Authors</a></li>
+    <ul class="sidebar-nav flex-column p-5 list-unstyled">
+        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:list_book' %}">All Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'auser:authors_list' %}">All Authors</a></li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'catalog:loaned_book' %}">My Borrowed</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'catalog:loaned_book' %}">My Borrowed</a></li>
+        {% endif %}
+        {% if user.is_staff or user.staff_user %}
+        <li class="nav-item" ><a class="nav-link" href="{% url 'auser:list_user' %}">List of users</a></li>
         {% endif %}
     </ul>
 </nav>
