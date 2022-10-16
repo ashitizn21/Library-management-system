@@ -1,0 +1,40 @@
+{% extends 'layouts/main.html' %} {% load static widget_tweaks %} 
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" ><a href="{% url 'catalog:index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+</nav>
+{% endblock %} 
+{% block content %} 
+<div class="container-fluid my-4">
+    <div>
+        <a href="{% url 'auser:add_user' %}">Add user</a>
+    </div>
+<table class="table responsive" id="users_list ">
+    <thead>
+        <th class="border-bottom border-0">No</th>
+        <th class="border-bottom border-0">Username</th>
+        <th class="border-bottom border-0">First name</th>
+        <th class="border-bottom border-0">Last name</th>
+        <th class="border-bottom border-0">Email</th>
+        <th class="border-bottom border-0">Phone no</th>
+        <th class="border-bottom border-0">Role</th>
+    </thead>
+    <tbody>
+        {% for user in users  %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone_number }}</td>
+            <td>{{ user }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
