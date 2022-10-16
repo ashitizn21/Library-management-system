@@ -40,6 +40,30 @@ class ListUsersView(PermissionRequiredMixin, ListView):
     extra_context = {"title": _("List of users ")}
     context_object_name = "users"
 
+
+class UpdateUserProfileView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    ''' Update user profile '''
+    model = User
+    fields = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "location",
+        "po_box",
+        "profile_picture",
+    )
+    template_name = "auser/user/update.html"
+    permission_required = "auser.change_user"
+    success_url = reverse_lazy("auser:list_user")
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({"title": _(f'Update {self.object.get_full_name() }')})
+        return context
+
 class ListRolesView(PermissionRequiredMixin, ListView):
     ''' List roles of users '''
 
