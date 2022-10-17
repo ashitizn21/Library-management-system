@@ -1,9 +1,7 @@
-
-from dataclasses import field
-from pyexpat import model
+import datetime
 from django import forms
 from django.contrib.auth.models import Group, Permission
-
+from django.core.exceptions import ValidationError
 from auser.models import User
 
 class UserCreateForm(forms.ModelForm):
@@ -27,3 +25,22 @@ class UpdateRoleForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ("permissions", )
+
+class UpdateUserForm(forms.ModelForm):
+    group = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(), required=True
+    )
+
+    class Meta:
+        model = User
+        fields = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "group",
+        "phone_number",
+        "location",
+        "po_box",
+        "profile_picture",
+    )
