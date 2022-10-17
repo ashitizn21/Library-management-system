@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
 
 from .models import Author, User
-from .forms import UserCreateForm, UpdateRoleForm
+from .forms import UserCreateForm, UpdateRoleForm, UpdateUserForm
 class AuthorListView(ListView):
 
     model = Author
@@ -25,7 +25,7 @@ class AddUserView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     '''  '''
     model = User
     form_class = UserCreateForm
-    template_name = "auser/add_user.html"
+    template_name = "auser/user/add.html"
     success_message = "Account succesfully created!"
     permission_required = "auser:add_user"
     success_url = reverse_lazy("catalog:index")
@@ -35,7 +35,7 @@ class AddUserView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 class ListUsersView(PermissionRequiredMixin, ListView):
     ''' List users of the system '''
     model = User
-    template_name = "auser/list_users.html"
+    template_name = "auser/user/list.html"
     permission_required = "auser:view_user"
     extra_context = {"title": _("List of users ")}
     context_object_name = "users"
@@ -44,25 +44,31 @@ class ListUsersView(PermissionRequiredMixin, ListView):
 class UpdateUserProfileView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     ''' Update user profile '''
     model = User
-    fields = (
-        "username",
-        "first_name",
-        "last_name",
-        "email",
-        "phone_number",
-        "location",
-        "po_box",
-        "profile_picture",
-    )
+    form_class = UpdateUserForm
     template_name = "auser/user/update.html"
     permission_required = "auser.change_user"
     success_url = reverse_lazy("auser:list_user")
 
+    def get_initial(self):
+        initial = super().get_initial()
+        try:
+            current_group = self.object.groups.get()
+        except:
+            pass
+        else:
+            initial['group']=current_group.pk
+        return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({"title": _(f'Update {self.object.get_full_name() }')})
         return context
+
+    def form_valid(self, form):
+        self.object.groups.clear()
+        for nn in form.cleaned_data['group']:
+            self.object.groups.add(Group.objects.get(name=nn))
+        return super().form_valid(form)
 
 class ListRolesView(PermissionRequiredMixin, ListView):
     ''' List roles of users '''
