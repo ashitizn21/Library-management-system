@@ -26,10 +26,10 @@
         {% for user in users  %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ user.username }}</td>
+            <td><a href="{% url 'auser:user_detail' user.pk %}">{{ user.username }}</a></td>
             <td>{{ user.first_name }}</td>
             <td>{{ user.last_name }}</td>
-            <td>{{ user.email }}</td>
+            <td><a href="{% url 'auser:user_detail' user.pk %}">{{ user.email }}</a></td>
             <td>{{ user.phone_number }}</td>
             <td>{% if user.groups.all %}
                 <ul>
