@@ -9,9 +9,9 @@
 {% endblock %} 
 {% block content %} 
 <div class="container-fluid my-4">
-    <div>
-        <a href="{% url 'auser:add_user' %}">Add user</a>
-    </div>
+    <div class="offset-md-6 offset-lg-7 col-12 col-md-6 col-lg-5 my-3 d-flex justify-content-end">
+        {% if perms.auser.add_user %}<a href="{% url 'auser:add_user' %}" class="btn btn-md btn-success rounded-3 shadow-none me-3">
+          <i class="fa-solid fa-circle-plus me-2"></i>Add User</a>{% endif %}</div>
 <table class="table responsive" id="users_list ">
     <thead>
         <th class="border-bottom border-0">No</th>
@@ -31,7 +31,15 @@
             <td>{{ user.last_name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.phone_number }}</td>
-            <td>{{ user }}</td>
+            <td>{% if user.groups.all %}
+                <ul>
+                    {% for group in user.groups.all %} 
+                        <li>{{ group }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %} <span class="small">user is not assigned to group </span>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
