@@ -70,6 +70,13 @@ class UpdateUserProfileView(PermissionRequiredMixin, SuccessMessageMixin, Update
             self.object.groups.add(Group.objects.get(name=nn))
         return super().form_valid(form)
 
+class UserDetailView(PermissionRequiredMixin, DetailView):
+    model = User
+    permission_required = "auser.view_user"
+    template_name = "auser/user/detail.html"
+    extra_context = {"title": _("User detail")} 
+
+
 class ListRolesView(PermissionRequiredMixin, ListView):
     ''' List roles of users '''
 
