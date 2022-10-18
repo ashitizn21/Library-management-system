@@ -72,7 +72,7 @@ class Author(User):
     ''' Author model of books '''
    
     date_of_birth = models.DateField(_("date of birth"), null=True, blank=True)
-    date_of_death = models.DateField(_("Died"), null=True, blank=True)
+    date_of_death = models.DateField(_("Died"), help_text=_("You can leave it blank, if author is not died"), null=True, blank=True)
 
     class Meta:
         ordering = ["last_name", "first_name"]
