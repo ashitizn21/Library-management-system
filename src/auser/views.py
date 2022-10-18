@@ -43,6 +43,25 @@ class AddUserView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy("catalog:index")
     extra_context = {"title": _("Add user")}
 
+    # def form_valid(self, form):
+    #     if self.is_firstName_required(form):
+    #         # print("@@@@pass@@@")
+    #         return super().form_valid(form)
+    #     # print("@@@@ not @@@")
+    #     return super().form_invalid(form)
+
+    # def is_firstName_required(self, form):
+    #     firstName = form.cleaned_data['first_name']
+    #     if len(firstName) == 0:
+    #         print("---null---")
+    #         form.add_error(
+    #             "first_name",
+    #             "Name of author is required, at least enter first name"
+    #         )
+    #         return False
+    #     # print("++++ not null +++")
+    #     return True
+        
 
 class ListUsersView(PermissionRequiredMixin, ListView):
     ''' List users of the system '''

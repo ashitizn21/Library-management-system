@@ -53,14 +53,41 @@ urlpatterns = [
                     ),
                     name="password_change",
                 ),
+                re_path(
+                    r'^user/(?P<pk>\d+)/update/$',
+                    views.UpdateUserProfileView.as_view(),
+                    name='update_user'
+                ),
+                re_path(
+                    r'^(?P<pk>\d+)/detail/$',
+                    views.UserDetailView.as_view(),
+                    name='user_detail'
+                ),
                 re_path(r'', include("django.contrib.auth.urls")),
             ],
         )
     ),
+    re_path(
+        r'^author/',
+        include(
+            [
+                re_path(
+                    r'^$', 
+                    views.AuthorListView.as_view(), 
+                    name='authors_list'),
+                re_path(
+                    r'^(?P<pk>\d+)/detail/$', 
+                    views.AuthorDetailView.as_view(),
+                    name='author_detail'),
+                re_path(
+                    r'^add/$',
+                    views.AddAuthorView.as_view(),
+                    name='author_add'
+                ),
 
-    re_path(r'^authors/$', views.AuthorListView.as_view(), name='authors_list'),
-    re_path(r'^author/(?P<pk>\d+)/$', views.AuthorDetailView.as_view(), name='author_detail'),
-    
+            ]
+        )
+    ),    
     re_path(
         r'^user/',
         include(
@@ -74,6 +101,11 @@ urlpatterns = [
                     r"^lists/$",
                     views.ListUsersView.as_view(),
                     name="list_user"
+                 ),
+                 re_path(
+                    r'^(?P<pk>\d+)/delete/$',
+                    views.DeleteUserView.as_view(),
+                    name='delete_user'
                  ),
             ]
         )
