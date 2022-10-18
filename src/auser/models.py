@@ -68,6 +68,10 @@ class User(AbstractUser, Address):
     def is_user(self):
         return self.groups.filter(name="user").exists()
 
+    @property
+    def is_author(self):
+        return self.groups.filter(name="author").exists()
+
 class Author(User):
     ''' Author model of books '''
    

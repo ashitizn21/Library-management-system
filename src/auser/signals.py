@@ -13,7 +13,7 @@ def create_role(sender, plan, *args, **kwargs):
         Staff user :- workers of the library and they checks every activity of users
     '''
     
-    ROLES = ["user", "staff_user"]
+    ROLES = ["user", "staff_user", "author"]
     Group = apps.get_model("auth", "Group")
 
     for role in ROLES:
