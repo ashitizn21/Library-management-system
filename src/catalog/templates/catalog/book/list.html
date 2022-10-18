@@ -1,0 +1,47 @@
+{% extends 'layouts/main.html'%} {% load static %}
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>  
+    </ol>
+</nav>
+{% endblock %}
+{% block content %} 
+<h1>Book lists</h1> 
+<div class="offset-md-6 offset-lg-7 col-12 col-md-6 col-lg-5 my-3 d-flex justify-content-end">
+    {% if perms.catalog.add_book %}
+    <a href="{% url 'catalog:add_book' %}" class="btn btn-md btn-success rounded-3 shadow-none me-3">
+      <i class="fa-solid fa-circle-plus me-2"></i>Add Book</a>{% endif %}
+</div>
+{% if books %} 
+<div>
+    <ul class="list-unstyled">        
+        {% for book in books %}
+    <li><a href="{{ book.get_absolute_url }}" class="m-2">{{ book.title }}</a> - {{ book.author }}</li>    
+        {% endfor %}
+    </ul>
+</div>
+{% else %} 
+
+{% endif %}
+{% endblock content %}
+{% block pagination %} 
+{% if is_paginated %} 
+<div class="pagination">
+    <span class="page-link">
+
+        {% if page_obj.has_previous %} 
+            <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current-page">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>          
+        {% if page_obj.has_next %}
+        <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" class="">next</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endif %}
+{% endblock pagination %}

@@ -1,0 +1,44 @@
+{% extends 'layouts/main.html' %}{% load static i18n widget_tweaks %} 
+{% block breadcrumbs %}
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog:book_list' %}">Book list</a></li>
+        <li class="breadcrumb-item current " aria-current="page">{{ title }}</li>
+    </ol>
+</nav>
+{% endblock %} 
+{% block content %}{% with WIDGET_ERROR_CLASS="is-invalid" %}
+<form action="" method="post">{% csrf_token %}
+    {% if form.non_field_errors %}{% include 'layouts/error.html' with error=form.non_field_errors|first %}{% endif %}
+    <span class="text-danger">*</span>required
+    {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+    <div class="row">
+        {% for field in form.visible_fields %} 
+        <div class="col-md-10 col-lg-8">
+            <div class="form-group my-3 row">
+                <div class="col-sm-2 fw-light col-12 my-1">
+                    <label for="{{ field.id_for_label }}">{{ field.label }} {% if field.required %}<span class="text-danger">*</span>{% endif %} </label>
+                </div>
+                <div class="col">
+                    {% if field.field.widget.input_type == 'checkbox' %} 
+                    {% render_field field class+="form-check-input shadow-none" %} 
+                    {% else %} {% render_field field class+="form-control shadow-none" %}
+                    {% endif %}
+                    <span class="small text-muted" >{{ field.help_text }}</span>
+                    {% if fiel.error %} <div class="invalid-feedback">
+                        <i class="bx bx-radio-circle"></i>{{ field.error|first }}
+                    </div>{% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-10">
+            <button type="submit" class="btn btn-primary float-end px-2 mx-3 shadow-none">
+                <i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+        </div>
+    </div>
+</form>
+{% endwith %}{% endblock %}
