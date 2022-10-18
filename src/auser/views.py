@@ -1,10 +1,13 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils.translation import gettext_lazy as _ 
 from django.contrib.auth.models import Group
+from django.contrib import messages
+from django.db.models import ProtectedError
+from django.http import HttpResponseRedirect 
 
 from .models import Author, User
 from .forms import UserCreateForm, UpdateRoleForm, UpdateUserForm
@@ -76,6 +79,28 @@ class UserDetailView(PermissionRequiredMixin, DetailView):
     template_name = "auser/user/detail.html"
     extra_context = {"title": _("User detail")} 
 
+
+class DeleteUserView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = User
+    permission_required = "auser.delete_user"
+    success_url = reverse_lazy("auser:list_user")
+    http_method_name = ['post']
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(
+                request,
+                f"User {self.object.get_full_name()} deleted successfully.",
+            )
+            return response
+        except ProtectedError as error:
+            messages.error(
+                request,
+                f"You cann't delete this user, because there is {len(error.protected_objects)} "
+                "related datas. try to delete related objects first.",
+            )
+            return HttpResponseRedirect(self.success_url)
 
 class ListRolesView(PermissionRequiredMixin, ListView):
     ''' List roles of users '''

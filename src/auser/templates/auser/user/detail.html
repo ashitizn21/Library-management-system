@@ -50,9 +50,29 @@
             </div>
             <div class="btn-group rounded mt-4 mb-2 float-start w-50 mx-auto" role="group" aria-label="Management buttons">
                 {% if perms.view_user %}<a href="{% url 'auser:update_user' user.pk %}" class="btn btn-sm btn-primary px-4 rounded shadow-none me-2">Update</a>{% endif %}
+                <button class="dropdown-item text-danger py-2" data-bs-toggle="modal" data-bs-target="#delete-{{ user.pk }}"><i class="fa-solid fa-circle-minus me-3"></i>Delete</button>
            </div>
           </div>
         </div>
       </div>
     </div>
-  </div> {% endblock %}
+  </div> 
+  {% if perms.auser.delete_user %}<div class="modal fade" id="delete-{{ user.pk }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="text-danger fw-bolder"><i class="fa-solid fa-triangle-exclamation me-2"></i> This action is irreversable.</span>
+        </div>
+        <div class="modal-body">
+         Do you really wants to delete <strong>{{ user.pk }}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary shadow-none" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark me-2"></i>Cancel</button>
+          <form action="{% url 'auser:delete_user' user.pk %}" method="post">{% csrf_token %}
+             <button class="btn btn-outline-danger btn-sm shadow-none" type="submit"><i class="fa-solid fa-trash-can me-2"></i>I understand, delete!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>{% endif %}
+  {% endblock %}
