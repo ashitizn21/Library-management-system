@@ -3,7 +3,7 @@
 <nav class="breadcrumb">
     <ol class="breadcrumb ">
         <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'catalog:list_book' %}">books</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog:book_list' %}">books</a></li>
         <li class="breadcrumb-item"><a href="{{ book_instance.book.get_absolute_url }}">{{ book_instance.book }} - detail</a></li>
         <li class="breadcrumb-item active" aria-current="page">Renew due back - {{ book_instance.book  }}</li>
     </ol>

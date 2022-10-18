@@ -7,19 +7,21 @@
     </ol>
 </nav>
 {% endblock %}{% block content %}
-<div class="container-fluid">
-    <table class="table responsive">
+<div class="container-fluid"> {{ book_instance }}
+    <table id="loan_list" class="table responsive">
         <thead>
             <th class="border-bottom border-0" >No</th>
             <th class="border-bottom border-0">Book title</th>
+            <th class="border-bottom border-0">Borrower</th>
             <th class="border-bottom border-0">Due back date</th>
             <th><i class=""></i>Renew (Update date)</th>
         </thead>
         <tbody>
-            {% if loan_books %} {% for book in loan_books %}
+            {% if loan_books %} {%  for book in loan_books %}
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ book.book.title }}</td>
+                <td>{{ book.borrower }}</td>
                 <td>{{ book.due_back }}</td>
                 <td><a href="{% url 'catalog:renew_due_back' book.id  %}"><i class="fa fa-pencil" aria-hidden="true"></i> edit</a></td>
             </tr>
