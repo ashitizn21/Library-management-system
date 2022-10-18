@@ -1,0 +1,13 @@
+<h2>Auhtor : {{ author.first_name }} {{ author.last_name }}</h2>
+<div>
+    <p><strong>Birth date : </strong> {{ author.date_of_birth }}</p>
+
+    <div>
+        <h4>Books he wrote</h4>
+        <ul>
+            {% for book in author.books.all %}
+            <li><strong>Book title : </strong><a href="{{ book.get_absolute_url }}"> {{ book.title }} </a>--- <em>book genre is </em>  {{ book.genre }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -10,7 +10,7 @@ from django.db.models import ProtectedError
 from django.http import HttpResponseRedirect 
 
 from .models import Author, User
-from .forms import UserCreateForm, UpdateRoleForm, UpdateUserForm
+from .forms import UserCreateForm, UpdateRoleForm, UpdateUserForm, AddAuthorForm
 class AuthorListView(ListView):
 
     model = Author
@@ -18,11 +18,20 @@ class AuthorListView(ListView):
     context_object_name = "authors"
     extra_context = {"title": "Authors list"}
         
+class AddAuthorView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Author
+    form_class = AddAuthorForm
+    permission_required = "auser.add_author"
+    template_name = "auser/author/add.html"
+    success_url = reverse_lazy("auser:authors_list")
+    extra_context = {"title": _("Add author")}
+
 class AuthorDetailView(DetailView):
 
     model = Author
     template_name = 'auser/author/detail.html'
     extra_context = {"title": "Author detail"}
+    context_object_name = "author"
 
 class AddUserView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     '''  '''
