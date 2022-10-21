@@ -20,7 +20,7 @@
 <div>
   <ul class="list-unstyled">
     {% for author in authors %}
-    <li><a href="{{ author.get_absolute_url }}">{{ author.first_name }}</a></li>
+    <li><a href="{{ author.get_absolute_url }}">{{ author.username }} -- {{ author.first_name }}</a></li>
     {% endfor %}
   </ul>
 </div>

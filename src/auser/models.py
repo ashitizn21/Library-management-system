@@ -88,4 +88,4 @@ class Author(User):
         return reverse('auser:author_detail', args=[str(self.id)])
 
     def __str__(self):
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.username} ({self.last_name}, {self.first_name})'
