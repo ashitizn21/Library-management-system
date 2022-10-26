@@ -8,7 +8,7 @@
         </div>
     </div>    
     <ul class="sidebar-nav flex-column p-5 list-unstyled">
-        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:list_book' %}">All Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:book_list' %}">All Books</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'auser:authors_list' %}">All Authors</a></li>
         {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'catalog:loaned_book' %}">My Borrowed</a></li>

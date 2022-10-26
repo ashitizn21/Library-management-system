@@ -19,10 +19,10 @@
       </div>
       <div class="card-body p-0">
         <li>
-          <a class="dropdown-item p-2 px-3" href=""><i class="fa-solid fa-user me-2"></i>Profile</a>
+          <a class="dropdown-item p-2 px-3" href="{% url 'auser:update_user' request.user.pk %}"><i class="fa-solid fa-user me-2"></i>Edit profile</a>
         </li>
         <li>
-          <a class="dropdown-item p-2 px-3" href=""><i class="fa-solid fa-key me-2"></i>Change
+          <a class="dropdown-item p-2 px-3" href="{% url 'auser:password_change'  %}"><i class="fa-solid fa-key me-2"></i>Change
         password</a>
         </li>
         <li>
