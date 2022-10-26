@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^catalog/', include('catalog.urls') ),
-    # re_path(r'', include('django.contrib.auth.urls')),
+    re_path(r'', include('django.contrib.auth.urls')),
     re_path(r'', include("auser.urls")),
 ]
 
