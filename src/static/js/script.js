@@ -12,7 +12,7 @@ $(document).ready(function() {
     //     }, ]
     // })
 
-    $('#loan_list').DataTable({
+    $('#loan_list, #users_list').DataTable({
         dom: "QBfltipr",
         responsive: true,
         columnDefs: [{
