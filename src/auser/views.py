@@ -17,7 +17,7 @@ class AuthorListView(ListView):
     template_name = "auser/author/list.html"
     context_object_name = "authors"
     extra_context = {"title": "Authors list"}
-        
+    paginate_by = 10
 class AddAuthorView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Author
     form_class = AddAuthorForm
