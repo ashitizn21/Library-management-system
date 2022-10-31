@@ -47,8 +47,8 @@ class TestAuthorView(TestCase):
 
     def test_lists_all_authors(self):
         # Get second page and confirm it has (exactly) remaining 3 items
-        response = self.client.get(reverse_lazy('authors')+'?page=2')
+        response = self.client.get(reverse_lazy('auser:authors_list')+'?page=2')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] == True)
-        self.assertEqual(len(response.context['author_list']), 3)
+        self.assertEqual(len(response.context['authors']), 3)

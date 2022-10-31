@@ -3,13 +3,15 @@
 '''
 import email
 from django.test import TestCase
+# from django.core.files.uploadedfile import SimpleUploadedFile
 
 from auser.models import User, Author
 
 class UserModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        User.objects.create(first_name="Bacha", last_name="Debla")
+        # image_file = SimpleUploadedFile(name='test_image.jpg', content=open(image_path, 'rb').read(), content_type='image/jpeg')
+        User.objects.create(first_name="Bacha", last_name="Debla", profile_picture="uploads/profile_pictures/test_image.jpg")
 
     def test_first_name_label(self):
         user = User.objects.get(id=1)
@@ -26,6 +28,10 @@ class UserModelTest(TestCase):
         max_length = user._meta.get_field("sex").max_length
         self.assertEqual(max_length, 2)
 
+    def test_profile_picture_field(self):
+        user = User.objects.get(id=1)
+        target = user.profile_picture
+        self.assertEqual(target, "uploads/profile_pictures/test_image.jpg")
 
 class TestAuthorModel(TestCase):
     @classmethod
