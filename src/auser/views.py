@@ -23,6 +23,7 @@ class AddAuthorView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = AddAuthorForm
     permission_required = "auser.add_author"
     template_name = "auser/author/add.html"
+    success_message = _("`%(username)s` author added successfully.")
     success_url = reverse_lazy("auser:authors_list")
     extra_context = {"title": _("Add author")}
 
@@ -32,6 +33,54 @@ class AuthorDetailView(DetailView):
     template_name = 'auser/author/detail.html'
     extra_context = {"title": "Author detail"}
     context_object_name = "author"
+
+class UpdateAuthorView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Author
+    fields = (
+        "username",
+        "first_name",
+        "last_name",
+        "sex",
+        "email",
+        "phone_number",
+        "location",
+        "po_box",
+        "date_of_birth",
+        "date_of_death",
+        "profile_picture",
+    )
+    permission_required = "auser.change_author"
+    template_name = "auser/author/update.html"
+    
+    def get_success_url(self):
+        return reverse_lazy("auser:author_detail", args=[self.kwargs['pk']])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({"title": _(f'Update {self.object.get_full_name() }')})
+        return context
+
+class DeleteAuthorView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Author
+    permission_required = "auser.delete_author"
+    success_url = reverse_lazy("auser:authors_list")
+    http_method_names = ['post']
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(
+                request,
+                f"Author '{self.object.get_username()} {self.object.get_full_name()}' deleted successfully.",
+            )
+            return response
+        except ProtectedError as error:
+            messages.error(
+                request,
+                f"You cann't delete this Author, because there is {len(error.protected_objects)} "
+                "related datas. try to delete related objects first.",
+            )
+            return HttpResponseRedirect(self.success_url)
 
 class AddUserView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     '''  '''
@@ -79,6 +128,7 @@ class UpdateUserProfileView(PermissionRequiredMixin, SuccessMessageMixin, Update
     template_name = "auser/user/update.html"
     permission_required = "auser.change_user"
     success_url = reverse_lazy("auser:list_user")
+    success_message = _("User '%(first_name)s %(last_name)s' is successfully updated")
 
     def get_initial(self):
         initial = super().get_initial()
