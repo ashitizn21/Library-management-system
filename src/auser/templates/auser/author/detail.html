@@ -49,11 +49,11 @@
                   <div>Phone number &nbsp;&nbsp;&nbsp;: <span class="fw-light text-primary">{{ author.phone_number }}</span></div>
                   <div>P.O.B &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="fw-light text-primary">{{ author.po_box }}</span></div>
                   <div>Location &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="fw-light text-primary">{{ author.location|default:'' }}</span></div>
-              </div>
+              </div>{% if perms.auser.view_author or perms.auser.delete_author %}
               <div class="btn-group rounded mt-4 mb-2 float-start w-50 mx-auto" role="group" aria-label="Management buttons">
-                  {% if perms.view_author %}<a href="{% url 'auser:update_user' author.pk %}" class="btn btn-sm btn-primary px-4 rounded shadow-none me-2">Update</a>{% endif %}
+                  {% if perms.view_author %}<a href="{% url 'auser:update_author' author.pk %}" class="btn btn-sm btn-primary px-4 rounded shadow-none me-2">Update</a>{% endif %}
                   <button class="dropdown-item text-danger py-2" data-bs-toggle="modal" data-bs-target="#delete-{{ author.pk }}"><i class="fa-solid fa-circle-minus me-3"></i>Delete</button>
-             </div>
+             </div>{% endif %}
             </div>
           </div>
         </div>
@@ -66,11 +66,11 @@
           <span class="text-danger fw-bolder"><i class="fa-solid fa-triangle-exclamation me-2"></i> This action is irreversable.</span>
         </div>
         <div class="modal-body">
-         Do you really wants to delete <strong>{{ author.pk }}</strong>?
+         Do you really wants to delete author :-<strong>{{ author.first_name }} {{ author.username }}</strong>?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-outline-secondary shadow-none" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark me-2"></i>Cancel</button>
-          <form action="{% url 'auser:delete_user' user.pk %}" method="post">{% csrf_token %}
+          <form action="{% url 'auser:delete_author' author.pk %}" method="post">{% csrf_token %}
              <button class="btn btn-outline-danger btn-sm shadow-none" type="submit"><i class="fa-solid fa-trash-can me-2"></i>I understand, delete!</button>
           </form>
         </div>
