@@ -1,17 +1,17 @@
-from urllib import response
 from django.shortcuts import render, get_object_or_404
 from django.http import  HttpResponseRedirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Q
+from django.db.models import Q, ProtectedError
+from django.contrib import messages
 
 from auser.models import User
-from .models import Author, Book, BookInstance, Genre
+from .models import Author, Book, BookInstance, Genre, Language
 from .forms import RenewBookForm
 
 
@@ -63,7 +63,7 @@ class BookListView(ListView):
     '''  '''
 
     model = Book
-    templates_name = "catalog/book_list.html"
+    template_name = "catalog/book/list.html"
     context_object_name = "books"
     extra_context = {"title": "List of books"}
     paginate_by = 3
@@ -72,12 +72,54 @@ class BookListView(ListView):
         context['new_data'] = "this a sample of data"
         return context
 
+
+class AddBookView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Book
+    fields = "__all__"
+    permission_required = "catalog.add_book"
+    template_name = "catalog/book/add.html"
+    success_url = reverse_lazy("catalog:book_list")
+
+
 class BookDetailView(DetailView):
     
     model = Book
-    template_name = 'catalog/book_detail.html'
+    template_name = 'catalog/book/detail.html'
     extra_context = {"title": "Detail book"}
     
+class DeleteBookView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = Book
+    permission_required = "catalog.delete_book"
+    success_url = reverse_lazy("catalog:book_list")
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(
+                request,
+                f'{self.object.title} boo is successfully deleted.'
+            )
+            return response
+        except ProtectedError as error:
+            messages.error(
+                request,
+                f"You cann't delete this book, because there is {len(error.protected_objects)} "
+                "related datas. try to delete related objects first."
+            )
+            return HttpResponseRedirect(self.success_url)
+
+class UpdateBookView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Book
+    fields = "__all__"
+    permission_required = "catalog.change_book"
+    template_name = "catalog/book/update.html"
+    success_message = "%(title)s updated successfully."
+    extra_context = {"title": _("Update")}
+    # http_method_names = ['post']
+
+    def get_success_url(self):
+        return reverse_lazy("catalog:book_detail", args=[self.kwargs['pk']])    
+
 class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
     """Generic class-based view listing books on loan to current user."""
     model = BookInstance
@@ -94,7 +136,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
 @permission_required("catalog.can_mark_returns", raise_exception=True)
 def RenewDateBookView(request, pk):
     ''' Renewal due date of book view (function based view)  '''
-    print("SINPER", pk)
+    
     book_instance = get_object_or_404(BookInstance, pk=pk)
     
     if request.method == "POST" :
@@ -147,3 +189,22 @@ class ListLoanedBookView(PermissionRequiredMixin, ListView):
         return super().get_queryset().exclude(borrower__isnull=True).filter(
             Q(status__iexact='O')
             | Q(status__iexact='R'))
+
+class ListLanguageView(PermissionRequiredMixin, ListView):
+    model = Language
+    permission_required = "catalog.view_language"
+    template_name = "catalog/book/list_language.html"
+    context_object_name = "languages"
+    extra_context = {"title": _("Language list")}
+
+class AddLanguageView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    model = Language
+    fields = "__all__"
+    permission_required = "catalog.add_language"
+    template_name = 'catalog/book/add_language.html'
+    extra_context = {'title': _("Add language")}
+    success_message = "%(name)s added successfully!."
+    success_url = reverse_lazy("catalog:list_language")
+
+    def form_valid(self, form):
+        return super().form_valid(form)
