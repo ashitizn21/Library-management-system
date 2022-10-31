@@ -84,6 +84,16 @@ urlpatterns = [
                     views.AddAuthorView.as_view(),
                     name='author_add'
                 ),
+                re_path(
+                    r'^(?P<pk>\d+)/update/$',
+                    views.UpdateAuthorView.as_view(),
+                    name='update_author'
+                ),
+                re_path(
+                    r'^(?P<pk>\d+)/delete/$',
+                    views.DeleteAuthorView.as_view(),
+                    name='delete_author'
+                ),
 
             ]
         )
