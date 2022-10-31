@@ -1,5 +1,4 @@
 
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
@@ -17,6 +16,11 @@ class Genre(models.Model):
         return self.name
 
 
+class Language(models.Model):
+    name = models.CharField(help_text=_("language of book written"), max_length=100)
+    
+    def __str__(self):
+        return self.name
 class Book(models.Model):
     ''' books '''
             
@@ -31,7 +35,11 @@ class Book(models.Model):
     summary = models.TextField(max_length=1000, help_text=_("Enter a brief description of the book"))
     isbn = models.CharField('ISBN', max_length=13, unique=True,
                              help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
-
+    language = models.ForeignKey(
+                Language,
+                help_text=_("select a language of this book"),
+                on_delete=models.SET_NULL, null=True
+              )
     class Meta:
         ordering = ['title']
         db_table = "book"
