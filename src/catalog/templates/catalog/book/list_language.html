@@ -1,0 +1,22 @@
+{% extends 'layouts/main.html' %}{% load static %} 
+{% block breadcrumbs %} 
+<nav class="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'catalog:index' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+    </ol>
+</nav>
+{% endblock %}{% block content %}
+<div class="offset-md-6 offset-lg-7 col-12 col-md-6 col-lg-5 my-3 d-flex justify-content-end">
+    {% if perms.catalog.add_book %}
+    <a href="{% url 'catalog:add_language' %}" class="btn btn-md btn-success rounded-3 shadow-none me-3">
+      <i class="fa-solid fa-circle-plus me-2"></i>Add Language</a>{% endif %}
+</div>
+<div class="row">
+    <ul >
+        {% for language in languages %} 
+            <li>{{ language }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
