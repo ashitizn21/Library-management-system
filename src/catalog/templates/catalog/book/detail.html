@@ -16,6 +16,11 @@
   <p><strong>Language:</strong> {{ book.language }}</p>
   <p><strong>Genre:</strong> {{ book.genre.all|join:", " }}</p>
 
+  {% if perms.catalog.delete_book or perms.catalog.change_book %}
+  <div class="btn-group rounded mt-4 mb-2  mx-auto" role="group" aria-label="Management buttons">
+    {% if perms.catalog.change_book %}<a href="{% url 'catalog:update_book' book.pk %}">Update</a>{% endif %}
+    {% if perms.catalog.delete_book %}<button class="dropdown-item text-danger py-2" data-bs-toggle="modal" data-bs-target="#delete-{{ book.pk }}"><i class="fa-solid fa-circle-minus me-3"></i>Delete</button>{% endif %}
+</div>{% endif %}
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
 
@@ -31,4 +36,23 @@
       <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
     {% endfor %}
   </div>
+
+{% if perms.catalog.delete_book %}<div class="modal fade" id="delete-{{ book.pk }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="text-danger fw-bolder"><i class="fa-solid fa-triangle-exclamation me-2"></i> This action is irreversable.</span>
+      </div>
+      <div class="modal-body">
+       Do you really wants to delete Book :- <strong>{{ book.title }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline-secondary shadow-none" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark me-2"></i>Cancel</button>
+        <form action="{% url 'catalog:delete_book' book.pk %}" method="post">{% csrf_token %}
+           <button class="btn btn-outline-danger btn-sm shadow-none" type="submit"><i class="fa-solid fa-trash-can me-2"></i>I understand, delete!</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>{% endif %}
 {% endblock %}
