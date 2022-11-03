@@ -27,6 +27,7 @@
                     </h1>
                 </div>
                 {% endif %}
+                {% if messages %}{% include 'layouts/components/message.html' %}{% endif %}
                 <div class="main-content container-fluid">
                     {% block content %} {% endblock content %}
                     {% block pagination %} {% endblock pagination %}

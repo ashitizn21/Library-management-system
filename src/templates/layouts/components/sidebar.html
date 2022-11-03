@@ -16,6 +16,7 @@
         {% if user.is_staff or user.staff_user %}
         <li class="nav-item" ><a class="nav-link" href="{% url 'auser:list_user' %}">List of users</a></li>
         <li class="nav-item" ><a class="nav-link" href="{% url 'catalog:list_loan' %}">List loaned book</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'catalog:list_language' %}">Language & Genre</a></li>
         {% endif %}
     </ul>
 </nav>
