@@ -1,4 +1,5 @@
 
+from enum import unique
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
@@ -17,7 +18,7 @@ class Genre(models.Model):
 
 
 class Language(models.Model):
-    name = models.CharField(help_text=_("language of book written"), max_length=100)
+    name = models.CharField(help_text=_("language of book written"), max_length=100, unique=True)
     
     def __str__(self):
         return self.name
