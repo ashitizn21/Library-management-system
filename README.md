@@ -1,2 +1,2 @@
 # mdn-django-simple_full_project
-simple django project from MDN ( mozila developer ) 
+simple django web application and it used for library management.
