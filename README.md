@@ -1,2 +1,2 @@
-# mdn-django-simple_full_project
+# Library Management system
 simple django web application and it used for library management.
